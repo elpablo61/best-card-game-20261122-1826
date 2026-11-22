@@ -113,9 +113,9 @@ function renderArena(root, state, onPlay) {
     const banner = el('div', 'outcome ' + out.winner, out.line);
     const powers = el('div', 'powers', `You ${out.playerPower} — ${out.rivalPower} ${RIVAL_NAME}`);
     arena.append(banner, powers);
-    const next = el('button', 'btn primary', state.phase === 'over' ? 'SEE THE RESULT' : 'NEXT ROUND  ⏎');
+    const next = el('button', 'btn primary', 'NEXT ROUND  ⏎');
     next.addEventListener('click', onPlay);
-    arena.appendChild(next);
+    if (state.phase !== 'over') arena.appendChild(next);
   } else if (state.tell) {
     arena.appendChild(el('div', 'tell', state.tell));
   }
