@@ -51,9 +51,10 @@ sounds are synthesized with WebAudio.
 
 ## Screenshots
 
-`?shot=title`, `?shot=play&seed=7`, `?shot=win&seed=7` and `?shot=loss&seed=7`
+`?shot=title`, `?shot=clash&seed=7`, `?shot=win&seed=7` and `?shot=loss&seed=7`
 replay deterministic states of the game itself for the screenshots in
-`screenshots/`.
+`screenshots/` (title, a mid-duel clash with both cards face-up, the
+victory screen and the defeat screen).
 
 ## License
 
