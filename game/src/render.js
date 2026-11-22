@@ -54,7 +54,9 @@ export function cardElement(card, opts) {
   art.appendChild(el('div', 'card-glyph', suit.glyph));
   art.appendChild(el('div', 'card-suit-name', suit.name.toUpperCase()));
   const name = el('div', 'card-name', card.name);
-  const foot = el('div', 'card-foot', `PWR ${card.power} · COST ${card.cost} · ${suit.name} beats ${SUITS[suit.beats].name}`);
+  const foot = el('div', 'card-foot', `PWR ${card.power} · COST ${card.cost}`);
+  foot.title = `${suit.name} beats ${SUITS[suit.beats].name}`;
+  node.title = `${card.name} — ${suit.name}, power ${card.power}, cost ${card.cost} embers, beats ${SUITS[suit.beats].name}`;
   node.append(top, art, name, foot);
   return node;
 }

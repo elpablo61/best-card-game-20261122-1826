@@ -50,12 +50,12 @@ html, body {
 /* ---------- rows ---------- */
 .rival-row, .player-row { max-width: 1180px; margin: 0 auto; }
 .row-label { font-size: 12px; letter-spacing: 1.5px; opacity: 0.85; margin: 6px 0; text-transform: uppercase; }
-.hand { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; min-height: 148px; }
+.hand { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; min-height: 176px; }
 
 /* ---------- cards ---------- */
 .card {
-  width: 118px;
-  height: 158px;
+  width: 122px;
+  height: 172px;
   border-radius: 10px;
   background: linear-gradient(160deg, #fffdf4, #f0e6c8);
   color: #221a10;
@@ -137,7 +137,7 @@ html, body {
 .arena-slot { min-width: 130px; }
 .slot-name { font-size: 11px; letter-spacing: 1.5px; opacity: 0.85; margin-bottom: 5px; }
 .slot-empty {
-  width: 118px; height: 158px;
+  width: 122px; height: 172px;
   border: 2px dashed rgba(255, 255, 255, 0.35);
   border-radius: 10px;
   display: flex; align-items: center; justify-content: center;

@@ -116,6 +116,21 @@ const game = {
   },
 };
 
+// Screenshot replays rig the rival's pick, never the rules: for a win the
+// rival spends its weakest card, for a loss its strongest. Live play always
+// uses the real AI in ai.js.
+function weakestAffordableRival(state) {
+  const pool = state.rivalHand.filter((c) => c.cost <= state.rivalEnergy);
+  const cards = pool.length > 0 ? pool : state.rivalHand;
+  return cards.slice().sort((a, b) => a.power - b.power)[0];
+}
+
+function strongestAffordableRival(state) {
+  const pool = state.rivalHand.filter((c) => c.cost <= state.rivalEnergy);
+  const cards = pool.length > 0 ? pool : state.rivalHand;
+  return cards.slice().sort((a, b) => b.power - a.power)[0];
+}
+
 function runShotMode(params) {
   const shot = params.get('shot');
   const seed = Number(params.get('seed') || '7');
@@ -123,15 +138,23 @@ function runShotMode(params) {
     game.render();
     return true;
   }
-  if (shot === 'play') {
+  if (shot === 'play' || shot === 'clash') {
     game.startDuel(seed);
     const rng = game.state.rng;
-    for (let i = 0; i < 4 && game.state.phase !== 'over'; i += 1) {
+    const rounds = shot === 'clash' ? 3 : 4;
+    for (let i = 0; i < rounds && game.state.phase !== 'over'; i += 1) {
       const affordable = game.state.playerHand.filter((c) => c.cost <= game.state.playerEnergy);
       const pool = affordable.length > 0 ? affordable : game.state.playerHand;
       const pick = pool[Math.floor(rng() * pool.length)];
       playPlayerCard(game.state, pick.id);
       advanceAfterReveal(game.state);
+    }
+    if (shot === 'clash' && game.state.phase === 'choose') {
+      // Play one more round and stop on the reveal, both cards face-up.
+      const affordable = game.state.playerHand.filter((c) => c.cost <= game.state.playerEnergy);
+      const pool = affordable.length > 0 ? affordable : game.state.playerHand;
+      const pick = pool.slice().sort((a, b) => b.power - a.power)[0];
+      playPlayerCard(game.state, pick.id);
     }
     game.state.tell = rivalTell(game.state, rng);
     game.render();
@@ -139,6 +162,7 @@ function runShotMode(params) {
   }
   if (shot === 'win' || shot === 'loss') {
     game.startDuel(seed);
+    game.state.rivalPicker = shot === 'win' ? weakestAffordableRival : strongestAffordableRival;
     simulateToEnd(game.state, shot === 'win' ? strongestCard : weakestCard);
     game.render();
     return true;

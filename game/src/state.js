@@ -80,7 +80,10 @@ export function playPlayerCard(state, cardId) {
   state.playerCard = card;
   state.playerPlayed.push(card);
 
-  const rivalCard = chooseRivalCard(state, state.rng);
+  const rivalCard = state.rivalPicker
+    ? state.rivalPicker(state)
+    : chooseRivalCard(state, state.rng);
+  if (!rivalCard) return false;
   const rIdx = state.rivalHand.findIndex((c) => c.id === rivalCard.id);
   state.rivalHand.splice(rIdx, 1);
   state.rivalEnergy -= rivalCard.cost;
